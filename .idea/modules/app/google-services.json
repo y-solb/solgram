@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "139933882710",
+    "project_id": "solgram-4826f",
+    "storage_bucket": "solgram-4826f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139933882710:android:886af33b9495071f399ef7",
+        "android_client_info": {
+          "package_name": "com.yoon.solgram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139933882710-slkh71jas3874rtrbcfa36fhdt9399cp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yoon.solgram",
+            "certificate_hash": "9d9f06d74c0c0c6f6c79a13e8105369cdece2736"
+          }
+        },
+        {
+          "client_id": "139933882710-740bmsthfro912vj5bovr7941kf96uer.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWbZ0vWvprKe989wPTJcUYEenVvDvGoJ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139933882710-740bmsthfro912vj5bovr7941kf96uer.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
