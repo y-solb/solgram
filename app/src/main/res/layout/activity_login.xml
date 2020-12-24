@@ -13,6 +13,7 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/logo_solgram" />
 
+
     <LinearLayout
         android:id="@+id/signin_layout"
         android:layout_width="match_parent"
