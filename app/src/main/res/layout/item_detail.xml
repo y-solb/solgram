@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"> // 해당 위젯을 세로 중앙에 위치 시킵
+
+        <ImageView
+            android:id="@+id/detailviewitem_profile_image"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="7.5dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/detailviewitem_profile_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User name" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/detailviewitem_imageview_content"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="fitXY" />
+        //android:scaleType="fitXY" - 가로/세로 비율에 상관없이 ImageView의 레이아웃의 각 면에 꽉 차게 출력
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="8dp">
+
+        <ImageView
+            android:id="@+id/detailviewitem_favorite_imageview"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_favorite" />
+
+        <ImageView
+            android:id="@+id/detailviewitem_comment_imageview"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/ic_chat" />
+        <ImageView
+            android:id="@+id/detailviewitem_share_imageview"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/ic_share" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/detailviewitem_bookmark_imageview"
+            android:layout_width="26dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_bookmark" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/detailviewitem_favoritecounter_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="0 likes" />
+
+    <TextView
+        android:id="@+id/detailviewitem_explain_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Explain content" />
+</LinearLayout>
