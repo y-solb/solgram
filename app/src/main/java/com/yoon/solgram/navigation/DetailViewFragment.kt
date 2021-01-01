@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.yoon.solgram.R
 import com.yoon.solgram.navigation.model.ContentDTO
@@ -16,7 +17,8 @@ import kotlinx.android.synthetic.main.item_detail.view.*
 
 class DetailViewFragment : Fragment() {
     var firestore: FirebaseFirestore? = null //db 접근할 수 있도록
-    
+    var uid : String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,6 +27,8 @@ class DetailViewFragment : Fragment() {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
 
         firestore = FirebaseFirestore.getInstance() // Initate
+
+        uid = FirebaseAuth.getInstance().currentUser?.uid
 
         view.detailviewfragment_recyclerview.adapter = DetailViewRecyclerViewAdapter()
         view.detailviewfragment_recyclerview.layoutManager = LinearLayoutManager(activity) //화면을 세로로 배치하기 위해
@@ -83,6 +87,40 @@ class DetailViewFragment : Fragment() {
             //ProfileImage
             Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl)
                 .into(viewholder.detailviewitem_profile_image)
+
+            //This code is when the button is clicked
+            viewholder.detailviewitem_favorite_imageview.setOnClickListener{
+                favoriteEvent(position)
+            }
+
+            //This code is when the page is loaded
+            if(contentDTOs!![position].favorites.containsKey(uid)){
+                //This is like status
+                viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_c)
+            }else{
+                //This is unlike status
+                viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite)
+            }
+        }
+
+        fun favoriteEvent(position: Int){
+            var tsDoc = firestore?.collection("images")?.document(contentUidList[position]) //유저가 선택한 컨텐츠 uid
+            firestore?.runTransaction { transaction -> //데이터 입력을 위한 트랜잭션 - 데이터베이스의 상태(추가,삭제,변경)를 변화시키기 위해
+
+                var uid = FirebaseAuth.getInstance().currentUser?.uid
+                var contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java)
+
+                if(contentDTO!!.favorites.containsKey(uid)){
+                    //When the button is clicked
+                    contentDTO?.favoriteCount = contentDTO?.favoriteCount - 1
+                    contentDTO?.favorites.remove(uid)
+                }else{
+                    //When the button is not clicked
+                    contentDTO?.favoriteCount = contentDTO?.favoriteCount + 1
+                    contentDTO?.favorites[uid!!] = true
+                }
+                transaction.set(tsDoc,contentDTO)//서버로 다시 돌려줌
+            }
         }
     }
 }
