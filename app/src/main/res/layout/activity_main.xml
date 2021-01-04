@@ -11,15 +11,34 @@
         android:layout_width="match_parent"
         android:layout_height="35dp">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/toolbar_btn_back"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="left"
+                android:src="@drawable/ic_arrow_back" />
+
+            <TextView
+                android:id="@+id/toolbar_username"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="UserID"
+                android:textColor="@color/colorNavIcon"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/toolbar_title_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:src="@drawable/logo_solgram" />
-        </RelativeLayout>
+        </FrameLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,6 +17,7 @@ import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
+        setToolbarDefault()
         when (p0.itemId) {
             R.id.action_home -> {
                 var detailViewFragment = DetailViewFragment()
@@ -50,14 +52,21 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 var userFragment = UserFragment()
                 var bundle = Bundle()
                 var uid = FirebaseAuth.getInstance().currentUser?.uid
-                bundle.putString("destinationUid",uid)
+
+                bundle.putString("destinationUid", uid)
                 userFragment.arguments = bundle
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, userFragment)
-                    .commit()
+                    .commit() //Fragment 변경(기존 Fragment 위치, 바뀔 Fragment)
                 return true
             }
         }
         return false
+    }
+
+    fun setToolbarDefault() {
+        toolbar_username.visibility = View.GONE
+        toolbar_btn_back.visibility = View.GONE
+        toolbar_title_image.visibility = View.VISIBLE
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +79,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             1
         )
         //사진 경로를 가져올 수 있는 권한 요청
-
 
         //Set default screen
         bottom_navigation.selectedItemId = R.id.action_home

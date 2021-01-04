@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.item_detail.view.*
 
 class DetailViewFragment : Fragment() {
     var firestore: FirebaseFirestore? = null //db 접근할 수 있도록
-    var uid : String? = null
+    var uid: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +31,8 @@ class DetailViewFragment : Fragment() {
         uid = FirebaseAuth.getInstance().currentUser?.uid
 
         view.detailviewfragment_recyclerview.adapter = DetailViewRecyclerViewAdapter()
-        view.detailviewfragment_recyclerview.layoutManager = LinearLayoutManager(activity) //화면을 세로로 배치하기 위해
+        view.detailviewfragment_recyclerview.layoutManager =
+            LinearLayoutManager(activity) //화면을 세로로 배치하기 위해
         return view
     }
 
@@ -46,6 +47,7 @@ class DetailViewFragment : Fragment() {
                 ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     contentDTOs.clear() //초기화
                     contentUidList.clear() //초기화
+                    if (querySnapshot == null) return@addSnapshotListener
                     for (snapshot in querySnapshot!!.documents) { //데이터 하나씩 읽기
                         var item = snapshot.toObject(ContentDTO::class.java)
                         contentDTOs.add(item!!)
@@ -56,7 +58,8 @@ class DetailViewFragment : Fragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_detail, parent, false)
+            var view =
+                LayoutInflater.from(parent.context).inflate(R.layout.item_detail, parent, false)
             return CustomViewHolder(view)
         }
 
@@ -89,37 +92,50 @@ class DetailViewFragment : Fragment() {
                 .into(viewholder.detailviewitem_profile_image)
 
             //This code is when the button is clicked
-            viewholder.detailviewitem_favorite_imageview.setOnClickListener{
+            viewholder.detailviewitem_favorite_imageview.setOnClickListener {
                 favoriteEvent(position)
             }
 
             //This code is when the page is loaded
-            if(contentDTOs!![position].favorites.containsKey(uid)){
+            if (contentDTOs!![position].favorites.containsKey(uid)) {
                 //This is like status
                 viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_c)
-            }else{
+            } else {
                 //This is unlike status
                 viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite)
             }
+
+            //This code is when the profile image is clicked
+            viewholder.detailviewitem_profile_image.setOnClickListener {
+                var fragment = UserFragment()
+                var bundle = Bundle()
+
+                bundle.putString("destinationUid", contentDTOs[position].uid) //선택된 uid값
+                bundle.putString("userId", contentDTOs[position].userId) //선택된 이메일값
+                fragment.arguments = bundle
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.main_content, fragment)?.commit()
+            }
         }
 
-        fun favoriteEvent(position: Int){
-            var tsDoc = firestore?.collection("images")?.document(contentUidList[position]) //유저가 선택한 컨텐츠 uid
+        fun favoriteEvent(position: Int) {
+            var tsDoc = firestore?.collection("images")
+                ?.document(contentUidList[position]) //유저가 선택한 컨텐츠 uid
             firestore?.runTransaction { transaction -> //데이터 입력을 위한 트랜잭션 - 데이터베이스의 상태(추가,삭제,변경)를 변화시키기 위해
 
                 var uid = FirebaseAuth.getInstance().currentUser?.uid
                 var contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java)
 
-                if(contentDTO!!.favorites.containsKey(uid)){
+                if (contentDTO!!.favorites.containsKey(uid)) {
                     //When the button is clicked
                     contentDTO?.favoriteCount = contentDTO?.favoriteCount - 1
                     contentDTO?.favorites.remove(uid)
-                }else{
+                } else {
                     //When the button is not clicked
                     contentDTO?.favoriteCount = contentDTO?.favoriteCount + 1
                     contentDTO?.favorites[uid!!] = true
                 }
-                transaction.set(tsDoc,contentDTO)//서버로 다시 돌려줌
+                transaction.set(tsDoc, contentDTO)//서버로 다시 돌려줌
             }
         }
     }
