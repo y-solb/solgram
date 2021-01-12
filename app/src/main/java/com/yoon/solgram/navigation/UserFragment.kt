@@ -30,6 +30,9 @@ class UserFragment : Fragment() {
     var uid: String? = null
     var auth: FirebaseAuth? = null
     var currentUserUid: String? = null
+    companion object{
+        var PICK_PROFILE_FROM_ALBUM = 10
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,6 +69,11 @@ class UserFragment : Fragment() {
         fragmentView?.account_recyclerview?.adapter = UserFragmentRecyclerViewAdapter()
         fragmentView?.account_recyclerview?.layoutManager =
             GridLayoutManager(activity!!, 3) //한 행에 3개씩
+        fragmentView?.account_iv_profile?.setOnClickListener {
+            var photoPickIntent = Intent(Intent.ACTION_PICK)
+            photoPickIntent.type = "image/*"
+            activity?.startActivityForResult(photoPickIntent,PICK_PROFILE_FROM_ALBUM)
+        }
         return fragmentView
     }
 
