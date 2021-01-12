@@ -92,10 +92,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == UserFragment.PICK_PROFILE_FROM_ALBUM && resultCode == Activity.RESULT_OK){
+        if (requestCode == UserFragment.PICK_PROFILE_FROM_ALBUM && resultCode == Activity.RESULT_OK) {
+            //사진이 선택되었을때
             var imageUri = data?.data
             var uid = FirebaseAuth.getInstance().currentUser?.uid
-            var storageRef = FirebaseStorage.getInstance().reference.child("userProfileImages").child(uid!!)
+            var storageRef =
+                FirebaseStorage.getInstance().reference.child("userProfileImages").child(uid!!)
             storageRef.putFile(imageUri!!).continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
                 return@continueWithTask storageRef.downloadUrl
             }.addOnSuccessListener { uri ->
