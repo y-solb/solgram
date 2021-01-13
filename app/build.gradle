@@ -35,9 +35,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:20.0.1' //회원
     implementation 'com.google.firebase:firebase-storage:19.2.1' //사진 업로드
     implementation 'com.google.firebase:firebase-firestore:18.0.0' //db
+    implementation 'com.google.firebase:firebase-messaging:18.0.0' //push message
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'androidx.multidex:multidex:2.0.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
