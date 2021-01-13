@@ -20,7 +20,9 @@
             android:layout_toRightOf="@+id/account_iv_profile"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="40dp"/>
+            android:layout_height="40dp"
+            android:theme="@style/ButtonStyle"
+            />
         <LinearLayout
             android:gravity="center"
             android:layout_width="match_parent"
