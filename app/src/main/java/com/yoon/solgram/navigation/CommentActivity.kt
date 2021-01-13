@@ -19,8 +19,8 @@ import kotlinx.android.synthetic.main.item_comment.view.*
 
 class CommentActivity : AppCompatActivity() {
 
-    var contentUid : String? = null
-    var destinationUid : String? = null
+    var contentUid: String? = null
+    var destinationUid: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +41,13 @@ class CommentActivity : AppCompatActivity() {
             FirebaseFirestore.getInstance().collection("images").document(contentUid!!)
                 .collection("comments").document().set(comment) //db에 값 넣기
 
-            commentAlarm(destinationUid!! ,comment_edit_message.text.toString()) //댓글 알람
+            commentAlarm(destinationUid!!, comment_edit_message.text.toString()) //댓글 알람
 
             comment_edit_message.setText("") //init
         }
     }
-    fun commentAlarm(destinationUid : String, message : String){
+
+    fun commentAlarm(destinationUid: String, message: String) {
         var alarmDTO = AlarmDTO()
         alarmDTO.destinationUid = destinationUid
         alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
@@ -56,9 +57,11 @@ class CommentActivity : AppCompatActivity() {
         alarmDTO.message = message
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
     }
-    inner class CommentRecyclerviewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){ //db에서 값을 출력
 
-        var comments : ArrayList<ContentDTO.Comment> = arrayListOf()
+    inner class CommentRecyclerviewAdapter :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() { //db에서 값을 출력
+
+        var comments: ArrayList<ContentDTO.Comment> = arrayListOf()
 
         init {
             FirebaseFirestore.getInstance() //db값을 읽어옴
@@ -66,11 +69,11 @@ class CommentActivity : AppCompatActivity() {
                 .document(contentUid!!)
                 .collection("comments")
                 .orderBy("timestamp") //시간순으로
-                .addSnapshotListener{ querySnapshot, firebaseFirestoreException ->
+                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     comments.clear() //중복 방지
-                    if(querySnapshot == null)return@addSnapshotListener
+                    if (querySnapshot == null) return@addSnapshotListener
 
-                    for(snapshot in querySnapshot.documents!!){
+                    for (snapshot in querySnapshot.documents!!) {
                         comments.add(snapshot.toObject(ContentDTO.Comment::class.java)!!)
                     }
                     notifyDataSetChanged() //RecyclerView 새로고침
@@ -78,11 +81,12 @@ class CommentActivity : AppCompatActivity() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_comment,parent,false)
+            var view =
+                LayoutInflater.from(parent.context).inflate(R.layout.item_comment, parent, false)
             return CustomViewHolder(view)
         }
 
-        private inner class CustomViewHolder(view : View) : RecyclerView.ViewHolder(view)
+        private inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
         override fun getItemCount(): Int {
             return comments.size
@@ -98,9 +102,10 @@ class CommentActivity : AppCompatActivity() {
                 .document(comments[position].uid!!) //댓글을 단 프로필 사진 주소
                 .get()
                 .addOnCompleteListener { task ->
-                    if(task.isSuccessful){
+                    if (task.isSuccessful) {
                         var url = task.result!!["image"]
-                        Glide.with(holder.itemView.context).load(url).apply(RequestOptions().circleCrop())
+                        Glide.with(holder.itemView.context).load(url)
+                            .apply(RequestOptions().circleCrop())
                             .into(view.commentviewitem_imageview_profile)
                     }
                 }
