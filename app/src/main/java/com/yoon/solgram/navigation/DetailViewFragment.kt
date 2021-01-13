@@ -9,12 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.yoon.solgram.R
 import com.yoon.solgram.navigation.model.AlarmDTO
 import com.yoon.solgram.navigation.model.ContentDTO
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
 class DetailViewFragment : Fragment() {
@@ -87,8 +89,17 @@ class DetailViewFragment : Fragment() {
                 "좋아요 " + contentDTOs!![position].favoriteCount + "개"
 
             //ProfileImage
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl)
-                .into(viewholder.detailviewitem_profile_image)
+           /* Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).apply(RequestOptions().circleCrop())
+                .into(viewholder.detailviewitem_profile_image)*/
+
+            FirebaseFirestore.getInstance().collection("profileImages")
+                .document(contentDTOs[position].uid!!).get().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val url = task.result!!["image"]
+                        Glide.with(holder.itemView.context).load(url).apply(RequestOptions().circleCrop())
+                            .into(viewholder.detailviewitem_profile_image)
+                    }
+                }
 
             //This code is when the button is clicked
             viewholder.detailviewitem_favorite_imageview.setOnClickListener {
