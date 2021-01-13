@@ -17,7 +17,7 @@
         android:title="@string/upload_image"/>
     <item
         android:id="@+id/action_favorite_alarm"
-        android:icon="@drawable/ic_favorite"
+        android:icon="@drawable/ic_favorite_border"
         android:enabled="true"
         android:title="@string/favorite"/>
     <item
