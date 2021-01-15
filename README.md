@@ -1,7 +1,7 @@
 # solgram
 
 - Home page
-<img src="https://user-images.githubusercontent.com/59462108/104629871-6b20b980-56dd-11eb-9ba9-82b0c0ab0c46.png" width="35%">
+<img src="https://user-images.githubusercontent.com/59462108/104677218-620b0900-572c-11eb-926a-7fc1940427b3.png" width="35%">
 
 - Album page
 <img src="https://user-images.githubusercontent.com/59462108/104630288-f26e2d00-56dd-11eb-94f7-7f64ab330155.png" width="35%">
